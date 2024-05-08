@@ -1,0 +1,75 @@
+## Code for Blank 1
+
+self.topo_obj = topologies()
+self.topo_obj.load_arrays(topology_filename)
+num_layers=self.topo_obj.get_num_layers()
+
+self.single_arr_cfg = scale_config()
+self.single_arr_cfg.read_conf_file(single_arr_config_file)
+
+
+## Code for Blank 2
+
+opmat_obj = opmat()
+opmat_obj.set_params(config_obj=self.single_arr_cfg, topoutil_obj=self.topo_obj, layer_id=layer_id)
+
+_, ifmap_op_mat = opmat_obj.get_ifmap_matrix()
+_, filter_op_mat = opmat_obj.get_filter_matrix()
+_, ofmap_op_mat = opmat_obj.get_ofmap_matrix()
+
+
+
+##Code for Blank 3
+
+compute_system = systolic_compute_os()
+if self.dataflow == 'ws':
+    compute_system = systolic_compute_ws()
+elif self.dataflow == 'is':
+    compute_system = systolic_compute_is()
+
+compute_system.set_params(config_obj=self.single_arr_cfg,
+                          ifmap_op_mat=ifmap_op_mat_part,
+                          filter_op_mat=filter_op_mat_part,
+                          ofmap_op_mat=ofmap_op_mat_part)
+
+ifmap_demand_mat, filter_demand_mat, ofmap_demand_mat = compute_system.get_demand_matrices()
+
+
+##Code for Blank 4
+
+memory_system = mem_dbsp()
+
+ifmap_buf_size_kb, filter_buf_size_kb, ofmap_buf_size_kb = self.single_arr_cfg.get_mem_sizes()
+ifmap_buf_size_bytes = 1024 * ifmap_buf_size_kb
+filter_buf_size_bytes = 1024 * filter_buf_size_kb
+ofmap_buf_size_bytes = 1024 * ofmap_buf_size_kb
+
+arr_row, arr_col = self.single_arr_cfg.get_array_dims()
+
+ifmap_backing_bw = 1
+filter_backing_bw = 1
+ofmap_backing_bw = 1
+if self.dataflow == 'os' or self.dataflow == 'ws':
+    ifmap_backing_bw = arr_row
+    filter_backing_bw = arr_col
+    ofmap_backing_bw = arr_col
+
+elif self.dataflow == 'is':
+    ifmap_backing_bw = arr_col
+    filter_backing_bw = arr_row
+    ofmap_backing_bw = arr_col
+
+memory_system.set_params(
+    word_size=1,
+    ifmap_buf_size_bytes=ifmap_buf_size_bytes,
+    filter_buf_size_bytes=filter_buf_size_bytes,
+    ofmap_buf_size_bytes=ofmap_buf_size_bytes,
+    rd_buf_active_frac=0.5, wr_buf_active_frac=0.5,
+    ifmap_backing_buf_bw=ifmap_backing_bw,
+    filter_backing_buf_bw=filter_backing_bw,
+    ofmap_backing_buf_bw=ofmap_backing_bw,
+    verbose=True,
+    estimate_bandwidth_mode=True
+)
+
+memory_system.service_memory_requests(ifmap_demand_mat, filter_demand_mat, ofmap_demand_mat)
