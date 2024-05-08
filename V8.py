@@ -336,32 +336,27 @@ class scaled_out_simulator:
             topology_name = self.topology_filename
             gridName1 = self.grid_rows
             gridName2 = self.grid_cols
-            output_file_path_ALL_Layers = f'./LayerInfo/{topology_name}/{gridName1}{gridName2}/{layer_id}.txt'
-            output_file_path_ALL_Layers2 = f'./LayerInfo/{topology_name}/{gridName1}{gridName2}'
-            
-
-            #print("testttttttt______________________")
-            #print(self.topology_filename)
-
+            output_file_path_ALL_Layers = './LayerInfo/' + topology_name + '/' + gridName1 + gridName2 + '/' + str(layer_id) + '.txt'
+            output_file_path_ALL_Layers2 = './LayerInfo/' + topology_name + '/' + gridName1 + gridName2
+            #print("testttttttt\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_")
+            #print(self.topology\_filename)
             if not os.path.exists(output_file_path_ALL_Layers2):
                 os.makedirs(output_file_path_ALL_Layers2)
             with open(output_file_path_ALL_Layers, 'w') as output_file:
-                output_file.write(f'Layer ID: {layer_id}\n')
-                output_file.write(f'Compute Cycles: {this_layer_compute_cycles}\n')
-                output_file.write(f'Overall Utilization (%): {this_layer_overall_util_perc}\n')
-                output_file.write(f'Total Ifmap DRAM Reads: {sum(self.stats_ifmap_dram_reads[layer_id])}\n')
-                output_file.write(f'Total Filter DRAM Reads: {sum(self.stats_filter_dram_reads[layer_id])}\n')
-                output_file.write(f'Total Ofmap DRAM Writes: {sum(self.stats_ofmap_dram_writes[layer_id])}\n')
-
-            output_file_path_One = f'./LayerInfo/{topology_name}/{gridName1}{gridName2}/All.txt'
-
+                output_file.write('Layer ID: ' + str(layer_id) + '\n')
+                output_file.write('Compute Cycles: ' + str(this_layer_compute_cycles) + '\n')
+                output_file.write('Overall Utilization (%): ' + str(this_layer_overall_util_perc) + '\n')
+                output_file.write('Total Ifmap DRAM Reads: ' + str(sum(self.stats_ifmap_dram_reads[layer_id])) + '\n')
+                output_file.write('Total Filter DRAM Reads: ' + str(sum(self.stats_filter_dram_reads[layer_id])) + '\n')
+                output_file.write('Total Ofmap DRAM Writes: ' + str(sum(self.stats_ofmap_dram_writes[layer_id])) + '\n')
+            output_file_path_One = './LayerInfo/' + topology_name + '/' + gridName1 + gridName2 + '/All.txt'
             with open(output_file_path_One, 'a') as output_file2:
-                output_file2.write(f'Layer ID: {layer_id}\n')
-                output_file2.write(f'Compute Cycles: {this_layer_compute_cycles}\n')
-                output_file2.write(f'Overall Utilization (%): {this_layer_overall_util_perc}\n')
-                output_file2.write(f'Total Ifmap DRAM Reads: {sum(self.stats_ifmap_dram_reads[layer_id])}\n')
-                output_file2.write(f'Total Filter DRAM Reads: {sum(self.stats_filter_dram_reads[layer_id])}\n')
-                output_file2.write(f'Total Ofmap DRAM Writes: {sum(self.stats_ofmap_dram_writes[layer_id])}\n')
+                output_file2.write('Layer ID: ' + str(layer_id) + '\n')
+                output_file2.write('Compute Cycles: ' + str(this_layer_compute_cycles) + '\n')
+                output_file2.write('Overall Utilization (%): ' + str(this_layer_overall_util_perc) + '\n')
+                output_file2.write('Total Ifmap DRAM Reads: ' + str(sum(self.stats_ifmap_dram_reads[layer_id])) + '\n')
+                output_file2.write('Total Filter DRAM Reads: ' + str(sum(self.stats_filter_dram_reads[layer_id])) + '\n')
+                output_file2.write('Total Ofmap DRAM Writes: ' + str(sum(self.stats_ofmap_dram_writes[layer_id])) + '\n')
         self.overall_compute_cycles_all_layers = sum(self.overall_compute_cycles_per_layers)
         self.overall_util_perc_all_layer = sum(self.overall_util_perc_per_layer) / num_layers
         self.metrics_ready = True
