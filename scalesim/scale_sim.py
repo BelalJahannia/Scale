@@ -1,7 +1,7 @@
 import os
 from scalesim.scale_config import scale_config
-from scalesim.topology_utils import topologies
-from scalesim.simulator import simulator as sim
+from topology_utils import topologies
+from simulator import simulator as sim
 
 
 class scalesim:

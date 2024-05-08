@@ -1,0 +1,10 @@
+#!/bin/sh
+'''exec' "/Users/b.jahannia/Desktop/Simulation/from NRF/ScaleSimV2 - Pycharm (copy)/scale-sim-v2/.ScaleSim/bin/python3.12" "$0" "$@"
+' '''
+# -*- coding: utf-8 -*-
+import re
+import sys
+from fontTools.ttx import main
+if __name__ == '__main__':
+    sys.argv[0] = re.sub(r'(-script\.pyw|\.exe)?$', '', sys.argv[0])
+    sys.exit(main())

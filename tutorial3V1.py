@@ -284,8 +284,8 @@ def plot_stacked_bar(x, y_series_np, legends, title, y_axis_label=''):
 #
 if __name__ == '__main__':
 
-    topofile = './files/tutorial3_topofile.csv'
-    config_file = './files/scale_config_64x64_os.cfg'
+    topofile = './topologies/conv_nets/test.csv'
+    config_file = './configs/scale.cfg'
 
     x_labels = ['2x2', '1x4', '4x1']
 

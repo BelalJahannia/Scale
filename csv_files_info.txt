@@ -67,6 +67,7 @@ mobilnet_reduce_run.csv, ./topologies/conv_nets/mobilnet_reduce_run.csv
 mobilnet_4k.csv, ./topologies/conv_nets/mobilnet_4k.csv
 FasterRCNN.csv, ./topologies/conv_nets/FasterRCNN.csv
 Googlenet.csv, ./topologies/conv_nets/Googlenet.csv
+test2.csv, ./topologies/conv_nets/test2.csv
 yolo_tiny.csv, ./topologies/conv_nets/yolo_tiny.csv
 UNet_maestro.csv, ./topologies/conv_nets/UNet_maestro.csv
 alexnet.csv, ./topologies/conv_nets/alexnet.csv

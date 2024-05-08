@@ -342,109 +342,87 @@ def plot_stacked_bar(x, y_series_np, legends, title, y_axis_label=''):
 
     plt.show()
 
+def read_csv_file_info(file_path):
+    # Read file names and their paths from the specified file and store them in a list of tuples
+    file_info_list = []
+    with open(file_path, 'r') as file:
+        lines = file.readlines()
+        for line in lines:
+            # Extract file name and path from each line
+            file_name, file_path = line.strip().split(', ')
+            # Remove the 'File Name: ' and 'Directory: ' prefixes
+            file_name = file_name.replace('File Name: ', '')
+            file_path = file_path.replace('Directory: ', '')
+            # Add file name and path as a tuple to the list
+            file_info_list.append((file_name, file_path))
+    return file_info_list
+
+def read_grid_file_info(file_path):
+    # Read file names and their paths from the specified file and store them in a list of tuples
+    grid = []
+    with open(file_path, 'r') as file:
+        lines = file.readlines()
+        for line in lines:
+            # Extraxt grid size
+            grid_size = line.strip().split(', ')
+            #print(grid_size, type(grid_size))
+            #print(grid_size[0], type(grid_size[0]))
+            #print(grid_size[1], type(grid_size[1]))
+            grid.append([int(float(grid_size[0])), int(float(grid_size[1]))])
+    return grid
+
 #
 if __name__ == '__main__':
 
     #topofile = './files/tutorial3_topofile.csv'
-    topofile = ['./topologies/conv_nets/test2.csv', ]
     config_file = './configs/scale.cfg'
 
-    x_labels = ['1x8', '2x4', '4x2']
+    # Example usage of the function
+    file_path = 'topologiesV3.txt'  # Update this with the correct file path if needed
+    file_info_list = read_csv_file_info(file_path)
 
-    output_file_path = 'WOOOOw8.txt'
+    top_File_Name = []
+    top_File_Path = []
+    # Print the file names and paths obtained from the function
+    for file_info in file_info_list:
+        # print(f'File Name: {file_info[0]}, Path: {file_info[1]}')
+        top_File_Name.append(file_info[0])
+        top_File_Path.append(file_info[1])
+    # filename = ['1x8', '2x4', '4x2', '8x1']
 
-
-    # Run 2x2 grid
-    print("Running 1x8 grid")
-    grid1 = scaled_out_simulator()
-    grid1.set_params(topology_filename=topofile[0],
-                     single_arr_config_file=config_file,
-                     grid_rows=1, grid_cols=8, dataflow='os')
-
-    grid1.run_simulations_all_layers()
-    grid1.calc_overall_stats_all_layer()
-
-    cycles, util, ifmap_read, filter_reads, ofmap_writes = grid1.get_report_items()
-    all_cycles = [cycles]
-    all_utils = [util]
-    dram_arr = [[ifmap_read, filter_reads, ofmap_writes]]
-
-    with open(output_file_path, 'a') as output_file:
-        output_file.write(f'{cycles}, {util}, {ifmap_read}, {filter_reads}, {ofmap_writes}\n')
-
-    # Run 1x4 grid
-    print("Running 2x4 grid")
-    grid2 = scaled_out_simulator()
-    grid2.set_params(topology_filename=topofile[0],
-                     single_arr_config_file=config_file,
-                     grid_rows=2, grid_cols=4, dataflow='os')
-
-    grid2.run_simulations_all_layers()
-    grid2.calc_overall_stats_all_layer()
-
-    cycles, util, ifmap_read, filter_reads, ofmap_writes = grid2.get_report_items()
-    all_cycles += [cycles]
-    all_utils += [util]
-    dram_arr += [[ifmap_read, filter_reads, ofmap_writes]]
-
-    with open(output_file_path, 'a') as output_file:
-        output_file.write(f'{cycles}, {util}, {ifmap_read}, {filter_reads}, {ofmap_writes}\n')
-
-    # Run grid 4x1
-    print("Running 4x2 grid")
-    grid3 = scaled_out_simulator()
-    grid3.set_params(topology_filename=topofile[0],
-                     single_arr_config_file=config_file,
-                     grid_rows=4, grid_cols=2, dataflow='os')
-
-    grid3.run_simulations_all_layers()
-    grid3.calc_overall_stats_all_layer()
-
-    cycles, util, ifmap_read, filter_reads, ofmap_writes = grid3.get_report_items()
-    all_cycles += [cycles]
-    all_utils += [util]
-    dram_arr += [[ifmap_read, filter_reads, ofmap_writes]]
-
-    with open(output_file_path, 'a') as output_file:
-        output_file.write(f'{cycles}, {util}, {ifmap_read}, {filter_reads}, {ofmap_writes}\n')
+    gridsize = read_grid_file_info('./Grids/Grids4.txt')
+    """
+    print(grid)
+    for size in grid:
+        print(size)
+        print(type(size))
+        print(type(size[0]))
 
     """
-    # Run grid 4x1
-    print("Running 8x1 grid")
-    grid4 = scaled_out_simulator()
-    grid4.set_params(topology_filename=topofile[0],
-                    single_arr_config_file=config_file,
-                    grid_rows=8, grid_cols=1, dataflow='os')
+    output_file_path = './OutputRes/4PEV1.txt'
 
-    grid4.run_simulations_all_layers()
-    grid4.calc_overall_stats_all_layer()
+    for i in range(len(top_File_Path)):
+        try:
+            grid = scaled_out_simulator()
 
-    cycles, util, ifmap_read, filter_reads, ofmap_writes = grid4.get_report_items()
-    all_cycles += [cycles]
-    all_utils += [util]
-    dram_arr += [[ifmap_read, filter_reads, ofmap_writes]]
+            for size in gridsize:
+                try:
+                    grid.set_params(topology_filename=top_File_Path[i],
+                                    single_arr_config_file=config_file,
+                                    grid_rows=size[0], grid_cols=size[1], dataflow='os')
 
-    with open(output_file_path, 'a') as output_file:
-        output_file.write(f'{cycles}, {util}, {ifmap_read}, {filter_reads}, {ofmap_writes}\n')
+                    grid.run_simulations_all_layers()
+                    grid.calc_overall_stats_all_layer()
 
-    """
+                    cycles, util, ifmap_read, filter_reads, ofmap_writes = grid.get_report_items()
 
+                    with open(output_file_path, 'a') as output_file:
+                        output_file.write(f'{top_File_Name[i]}, {top_File_Path[i]}, {size[0]}, {size[1]}, {cycles}, {util}, {ifmap_read}, {filter_reads}, {ofmap_writes}\n')
 
-    fig, ax1 = plt.subplots()
-    ax2 = ax1.twinx()
+                except Exception as e:
+                    print(f"Error in processing size {size}: {e}")
+                    continue
 
-    ax1.bar(x_labels, all_cycles)
-    ax2.plot(x_labels, all_utils, 'ro--')
-
-    ax1.set_ylabel('Cycles')
-    ax2.set_ylabel('Util%')
-    plt.title('Runtime and Utilization in Scale-out')
-
-    plt.show()
-
-    access_counts = np.asarray(dram_arr).reshape((3,3))
-    access_counts = np.transpose(access_counts)
-
-    plot_stacked_bar(x_labels, y_series_np=access_counts, legends=['DRAM_IFMAP', 'DRAM_FILTER', 'DRAM_OFMAP'],
-                     title='DRAM accesses', y_axis_label='Num access')
-
+        except Exception as e:
+            print(f"Error in processing file {top_File_Path[i]}: {e}")
+            continue

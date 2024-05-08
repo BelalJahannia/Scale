@@ -346,21 +346,20 @@ def plot_stacked_bar(x, y_series_np, legends, title, y_axis_label=''):
 if __name__ == '__main__':
 
     #topofile = './files/tutorial3_topofile.csv'
-    topofile = ['./topologies/conv_nets/test2.csv', ]
-    config_file = './configs/scale.cfg'
+    topofile = ['./topologies/conv_nets/testStart.csv', ]
+    config_file = './configs/PTC.cfg'
 
-    x_labels = ['1x16', '2x8', '4x4', '8x2', '16x1']
+    x_labels = ['1x8', '2x4', '4x2']
 
-    output_file_path = 'WOOOOw.txt'
-
+    output_file_path = 'WOOOOW8_V2.txt'
 
     # Run 2x2 grid
-    print("Running 1x16 grid")
+    print("Running 1x8 grid")
     grid1 = scaled_out_simulator()
     grid1.set_params(topology_filename=topofile[0],
-                     single_arr_config_file=config_file,
-                     grid_rows=1, grid_cols=16, dataflow='os')
-
+                     single_arr_config_file=config_file,grid_rows =2, grid_cols =2,
+                      dataflow='ws')
+    #
     grid1.run_simulations_all_layers()
     grid1.calc_overall_stats_all_layer()
 
@@ -373,16 +372,16 @@ if __name__ == '__main__':
         output_file.write(f'{cycles}, {util}, {ifmap_read}, {filter_reads}, {ofmap_writes}\n')
 
     # Run 1x4 grid
-    print("Running 2x8 grid")
-    grid = scaled_out_simulator()
-    grid.set_params(topology_filename=topofile[0],
+    print("Running 2x4 grid")
+    grid2 = scaled_out_simulator()
+    grid2.set_params(topology_filename=topofile[0],
                      single_arr_config_file=config_file,
-                     grid_rows=2, grid_cols=8, dataflow='os')
+                     grid_rows=2, grid_cols=8, dataflow='ws')
 
-    grid.run_simulations_all_layers()
-    grid.calc_overall_stats_all_layer()
+    grid2.run_simulations_all_layers()
+    grid2.calc_overall_stats_all_layer()
 
-    cycles, util, ifmap_read, filter_reads, ofmap_writes = grid.get_report_items()
+    cycles, util, ifmap_read, filter_reads, ofmap_writes = grid2.get_report_items()
     all_cycles += [cycles]
     all_utils += [util]
     dram_arr += [[ifmap_read, filter_reads, ofmap_writes]]
@@ -391,16 +390,16 @@ if __name__ == '__main__':
         output_file.write(f'{cycles}, {util}, {ifmap_read}, {filter_reads}, {ofmap_writes}\n')
 
     # Run grid 4x1
-    print("Running 4x4 grid")
-    grid = scaled_out_simulator()
-    grid.set_params(topology_filename=topofile[0],
+    print("Running 4x2 grid")
+    grid3 = scaled_out_simulator()
+    grid3.set_params(topology_filename=topofile[0],
                      single_arr_config_file=config_file,
-                     grid_rows=4, grid_cols=4, dataflow='os')
+                     grid_rows=4, grid_cols=2, dataflow='os')
 
-    grid.run_simulations_all_layers()
-    grid.calc_overall_stats_all_layer()
+    grid3.run_simulations_all_layers()
+    grid3.calc_overall_stats_all_layer()
 
-    cycles, util, ifmap_read, filter_reads, ofmap_writes = grid.get_report_items()
+    cycles, util, ifmap_read, filter_reads, ofmap_writes = grid3.get_report_items()
     all_cycles += [cycles]
     all_utils += [util]
     dram_arr += [[ifmap_read, filter_reads, ofmap_writes]]
@@ -410,35 +409,25 @@ if __name__ == '__main__':
 
     """
     # Run grid 4x1
-    print("Running 8x2 grid")
-    grid = scaled_out_simulator()
-    grid.set_params(topology_filename=topofile[0],
+    print("Running 8x1 grid")
+    grid4 = scaled_out_simulator()
+    grid4.set_params(topology_filename=topofile[0],
                     single_arr_config_file=config_file,
-                    grid_rows=8, grid_cols=2, dataflow='os')
+                    grid_rows=8, grid_cols=1, dataflow='os')
 
-    grid.run_simulations_all_layers()
-    grid.calc_overall_stats_all_layer()
+    grid4.run_simulations_all_layers()
+    grid4.calc_overall_stats_all_layer()
 
-    cycles, util, ifmap_read, filter_reads, ofmap_writes = grid.get_report_items()
+    cycles, util, ifmap_read, filter_reads, ofmap_writes = grid4.get_report_items()
     all_cycles += [cycles]
     all_utils += [util]
     dram_arr += [[ifmap_read, filter_reads, ofmap_writes]]
 
-    # Run grid 4x1
-    print("Running 16x1 grid")
-    grid = scaled_out_simulator()
-    grid.set_params(topology_filename=topofile[0],
-                    single_arr_config_file=config_file,
-                    grid_rows=16, grid_cols=1, dataflow='os')
+    with open(output_file_path, 'a') as output_file:
+        output_file.write(f'{cycles}, {util}, {ifmap_read}, {filter_reads}, {ofmap_writes}\n')
 
-    grid.run_simulations_all_layers()
-    grid.calc_overall_stats_all_layer()
-
-    cycles, util, ifmap_read, filter_reads, ofmap_writes = grid.get_report_items()
-    all_cycles += [cycles]
-    all_utils += [util]
-    dram_arr += [[ifmap_read, filter_reads, ofmap_writes]]
     """
+
 
     fig, ax1 = plt.subplots()
     ax2 = ax1.twinx()

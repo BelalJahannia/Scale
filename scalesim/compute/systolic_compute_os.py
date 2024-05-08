@@ -202,6 +202,7 @@ class systolic_compute_os:
 
     #
     def create_demand_matrices(self):
+        #print("_+_+ From OS compute", self.ifmap_demand_matrix.shape[1], self.arr_row)
         assert self.params_set_flag, 'Parameters are not set'
 
         self.create_ifmap_demand_mat()

@@ -1,0 +1,6 @@
+test.csv, ./topologies/conv_nets/test.csv, 1, 4, 443391.0, 103.92633138696996, 36864.0, 694744.0, 9192.0
+test.csv, ./topologies/conv_nets/test.csv, 2, 2, 554239.0, 83.14102760722359, 24576.0, 1389488.0, 9192.0
+test.csv, ./topologies/conv_nets/test.csv, 4, 1, 665087.0, 69.28416883806179, 17664.0, 2750994.0, 9192.0
+test.csv, ./topologies/conv_nets/test.csv, 1, 4, 443391.0, 103.92633138696996, 36864.0, 694744.0, 9192.0
+test.csv, ./topologies/conv_nets/test.csv, 2, 2, 554239.0, 83.14102760722359, 24576.0, 1389488.0, 9192.0
+test.csv, ./topologies/conv_nets/test.csv, 4, 1, 665087.0, 69.28416883806179, 17664.0, 2750994.0, 9192.0

@@ -1,0 +1,8 @@
+test.csv, ./topologies/conv_nets/test.csv
+test.csv, ./topologies/conv_nets/test.csv
+test.csv, ./topologies/conv_nets/test.csv
+test.csv, ./topologies/conv_nets/test.csv
+test.csv, ./topologies/conv_nets/test.csv
+test.csv, ./topologies/conv_nets/test.csv
+test.csv, ./topologies/conv_nets/test.csv
+test.csv, ./topologies/conv_nets/test.csv

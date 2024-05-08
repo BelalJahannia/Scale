@@ -139,6 +139,7 @@ class scaled_out_simulator:
                                           filter_op_mat=filter_op_mat_part,
                                           ofmap_op_mat=ofmap_op_mat_part)
 
+                print('===========Before' + str(grid_row_id))
                 ifmap_demand_mat, filter_demand_mat, ofmap_demand_mat = compute_system.get_demand_matrices()
 
                 print('Running row +++++Blank4' + str(grid_row_id))
@@ -411,7 +412,7 @@ if __name__ == '__main__':
 
     for grid_size in grid_sizes_list:
         gridsize = read_grid_file_info(f'./Grids/{grid_size}.txt')
-        output_file_path = f'./OutputRes/{grid_size}PE.txt'
+        output_file_path = f'./OutputRes-2024-02-28/{grid_size}PE.txt'
 
         for i in range(len(file_info_list)):
             try:

@@ -2,6 +2,14 @@ import math
 import numpy as np
 import matplotlib.pyplot as plt
 
+#
+import concurrent.futures
+
+# import os
+import os
+from pathlib import Path
+
+
 from scalesim.compute.operand_matrix import operand_matrix as opmat
 from scalesim.topology_utils import topologies
 from scalesim.scale_config import scale_config
@@ -316,6 +324,29 @@ class scaled_out_simulator:
             self.total_filter_dram_reads += [sum(self.stats_filter_dram_reads[layer_id])]
             self.total_ofmap_dram_writes += [sum(self.stats_ofmap_dram_writes[layer_id])]
 
+            # 4. Store layer information in a text file named after the topology
+            topology_name = os.path.splitext(os.path.basename(self.topo_obj.topology_file))[0]
+            output_file_path_ALL_Layers = f'./LayerInfo/{topology_name}_layer_{layer_id}.txt'
+
+
+            with open(output_file_path_ALL_Layers, 'w') as output_file:
+                output_file.write(f'Layer ID: {layer_id}\n')
+                output_file.write(f'Compute Cycles: {this_layer_compute_cycles}\n')
+                output_file.write(f'Overall Utilization (%): {this_layer_overall_util_perc}\n')
+                output_file.write(f'Total Ifmap DRAM Reads: {sum(self.stats_ifmap_dram_reads[layer_id])}\n')
+                output_file.write(f'Total Filter DRAM Reads: {sum(self.stats_filter_dram_reads[layer_id])}\n')
+                output_file.write(f'Total Ofmap DRAM Writes: {sum(self.stats_ofmap_dram_writes[layer_id])}\n')
+
+            output_file_path_One = f'./LayerInfo/{topology_name}_All.txt'
+
+            with open(output_file_path_One, 'a') as output_file2:
+                output_file2.write(f'Layer ID: {layer_id}\n')
+                output_file2.write(f'Compute Cycles: {this_layer_compute_cycles}\n')
+                output_file2.write(f'Overall Utilization (%): {this_layer_overall_util_perc}\n')
+                output_file2.write(f'Total Ifmap DRAM Reads: {sum(self.stats_ifmap_dram_reads[layer_id])}\n')
+                output_file2.write(f'Total Filter DRAM Reads: {sum(self.stats_filter_dram_reads[layer_id])}\n')
+                output_file2.write(f'Total Ofmap DRAM Writes: {sum(self.stats_ofmap_dram_writes[layer_id])}\n')
+
         self.overall_compute_cycles_all_layers = sum(self.overall_compute_cycles_per_layers)
         self.overall_util_perc_all_layer = sum(self.overall_util_perc_per_layer) / num_layers
 
@@ -371,58 +402,50 @@ def read_grid_file_info(file_path):
             grid.append([int(float(grid_size[0])), int(float(grid_size[1]))])
     return grid
 
-#
+
+
+
+def process_topology(file_name, file_path, gridsize, config_file, output_file_path):
+    try:
+        grid = scaled_out_simulator()
+
+        for size in gridsize:
+            try:
+                grid.set_params(topology_filename=file_path,
+                                single_arr_config_file=config_file,
+                                grid_rows=size[0], grid_cols=size[1], dataflow='os')
+
+                grid.run_simulations_all_layers()
+                grid.calc_overall_stats_all_layer()
+
+                cycles, util, ifmap_read, filter_reads, ofmap_writes = grid.get_report_items()
+
+                with open(output_file_path, 'a') as output_file:
+                    output_file.write(
+                        f'{file_name}, {file_path}, {size[0]}, {size[1]}, {cycles}, {util}, {ifmap_read}, {filter_reads}, {ofmap_writes}\n')
+
+            except Exception as e:
+                print(f"Error in processing size {size}: {e}")
+                continue
+
+    except Exception as e:
+        print(f"Error in processing file {file_path}: {e}")
+
+
 if __name__ == '__main__':
-
-    #topofile = './files/tutorial3_topofile.csv'
     config_file = './configs/scale.cfg'
-
-    # Example usage of the function
-    file_path = 'topologies.txt'  # Update this with the correct file path if needed
+    file_path = 'topologiesV3.txt'  # Update this with the correct file path if needed
     file_info_list = read_csv_file_info(file_path)
-
-    top_File_Name = []
-    top_File_Path = []
-    # Print the file names and paths obtained from the function
-    for file_info in file_info_list:
-        # print(f'File Name: {file_info[0]}, Path: {file_info[1]}')
-        top_File_Name.append(file_info[0])
-        top_File_Path.append(file_info[1])
-    # filename = ['1x8', '2x4', '4x2', '8x1']
-
     gridsize = read_grid_file_info('./Grids/Grids4.txt')
-    """
-    print(grid)
-    for size in grid:
-        print(size)
-        print(type(size))
-        print(type(size[0]))
+    output_file_path = './OutputRes/4PEV2_1.txt'
 
-    """
-    output_file_path = './OutputRes/4PE.txt'
+    # Create a ThreadPoolExecutor with the number of threads equal to the number of CPU cores
+    num_threads = 8
+    with concurrent.futures.ThreadPoolExecutor(max_workers=num_threads) as executor:
+        # Submit tasks to the thread pool for multithreaded execution
+        futures = [
+            executor.submit(process_topology, file_info[0], file_info[1], gridsize, config_file, output_file_path) for
+            file_info in file_info_list]
 
-    for i in range(len(top_File_Path)):
-        try:
-            grid = scaled_out_simulator()
-
-            for size in gridsize:
-                try:
-                    grid.set_params(topology_filename=top_File_Path[i],
-                                    single_arr_config_file=config_file,
-                                    grid_rows=size[0], grid_cols=size[1], dataflow='os')
-
-                    grid.run_simulations_all_layers()
-                    grid.calc_overall_stats_all_layer()
-
-                    cycles, util, ifmap_read, filter_reads, ofmap_writes = grid.get_report_items()
-
-                    with open(output_file_path, 'a') as output_file:
-                        output_file.write(f'{top_File_Name[i]}, {top_File_Path[i]}, {size[0]}, {size[1]}, {cycles}, {util}, {ifmap_read}, {filter_reads}, {ofmap_writes}\n')
-
-                except Exception as e:
-                    print(f"Error in processing size {size}: {e}")
-                    continue
-
-        except Exception as e:
-            print(f"Error in processing file {top_File_Path[i]}: {e}")
-            continue
+        # Wait for all tasks to complete
+        concurrent.futures.wait(futures)

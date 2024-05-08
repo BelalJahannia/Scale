@@ -182,7 +182,7 @@ class scaled_out_simulator:
         # Generate combinations of grid_row_id and grid_col_id
         combinations = list(itertools.product(range(self.grid_rows), range(self.grid_cols)))
 
-        with concurrent.futures.ThreadPoolExecutor(max_workers=len(combinations)) as executor:
+        with concurrent.futures.ThreadPoolExecutor(max_workers=8) as executor:
             futures = [executor.submit(process_subarray, grid_row_id, grid_col_id) for grid_row_id, grid_col_id in
                        combinations]
 
@@ -402,9 +402,6 @@ def read_grid_file_info(file_path):
             grid.append([int(float(grid_size[0])), int(float(grid_size[1]))])
     return grid
 
-
-
-
 def process_topology(file_name, file_path, gridsize, config_file, output_file_path):
     try:
         grid = scaled_out_simulator()
@@ -437,7 +434,7 @@ if __name__ == '__main__':
     config_file = './configs/scale.cfg'
 
     # Example usage of the function
-    file_path = 'topologies.txt'  # Update this with the correct file path if needed
+    file_path = 'topologiesV3.txt'  # Update this with the correct file path if needed
     file_info_list = read_csv_file_info(file_path)
 
     top_File_Name = []
@@ -458,7 +455,7 @@ if __name__ == '__main__':
         print(type(size[0]))
 
     """
-    output_file_path = './OutputRes/4PE.txt'
+    output_file_path = './OutputRes/4PEV3_1.txt'
 
     for i in range(len(top_File_Path)):
         try:

@@ -1,0 +1,1 @@
+alexnet_part.csv, ./topologies/conv_nets/alexnet_part.csv
