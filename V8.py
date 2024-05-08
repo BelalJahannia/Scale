@@ -440,17 +440,17 @@ if __name__ == '__main__':
                                 with open(output_file_path, 'w') as output_file:
                                     output_file.write(str(file_info_list[i][0]) + ', ' + str(size[0]) + ', ' + str(size[1]) + ', ' + str(cycles) + ', ' + str(util) + ', ' + str(ifmap_read) + ', ' + str(filter_reads) + ', ' + str(ofmap_writes) + '\n')
                             except Exception as e:
-                                print(f"1 Error in processing size - {size}: {e}")
+                                print("1 Error in processing size - " + str(size) + ": " + str(e))
                                 continue
                         except Exception as e:
-                            print(f"2 Error in completing size - {size}: {e}")
+                            print("2 Error in completing size - " + str(size) + ": " + str(e))
                             #output_file.write(f"Error in processing size -Size{size} - Grid{grid_size}: {e}\n")
                             continue
 
                 except Exception as e:
-                    print(f" 3 ---- Error in processing grid file {file_info_list[i][1]}: {e}")
+                    print(" 3 ---- Error in processing grid file " + file_info_list[i][1] + ": " + str(e))
                     continue
         
         except Exception as e:
-            print(f"4 ---- Error in processing grid list {grid_size}: {e}")
+            print("4 ---- Error in processing grid list " + str(grid_size) + ": " + str(e))
             continue
