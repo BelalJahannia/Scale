@@ -410,7 +410,7 @@ if __name__ == '__main__':
 
 
     for grid_size in grid_sizes_list:
-        gridsize = read_grid_file_info(f'./Grids/{grid_size}.txt')
+        gridsize = read_grid_file_info('./Grids/' + str(grid_size) + '.txt')
         try:
 
             for i in range(len(file_info_list)):
@@ -434,9 +434,8 @@ if __name__ == '__main__':
                             toponame = str(file_info_list[i][0])
                             toponame = toponame.replace(".csv", "")
 
-                            os.makedirs(f'./OutputRes-{date_written}/{grid_size}PE/{size[0]}-{size[1]}', exist_ok=True)
-
-                            output_file_path = f'./OutputRes-{date_written}/{grid_size}PE/{size[0]}-{size[1]}/{toponame}_{size[0]}-{size[1]}.txt'
+                            os.makedirs('./OutputRes-' + date_written + '/' + str(grid_size) + 'PE/' + str(size[0]) + '-' + str(size[1]), exist_ok=True)
+                            output_file_path = './OutputRes-' + date_written + '/' + str(grid_size) + 'PE/' + str(size[0]) + '-' + str(size[1]) + '/' + toponame + '_' + str(size[0]) + '-' + str(size[1]) + '.txt'
                             try:
                                 with open(output_file_path, 'w') as output_file:
                                     output_file.write(f'{file_info_list[i][0]}, {size[0]}, {size[1]}, {cycles}, {util}, {ifmap_read}, {filter_reads}, {ofmap_writes}\n')
