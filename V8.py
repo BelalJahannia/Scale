@@ -438,8 +438,7 @@ if __name__ == '__main__':
                             output_file_path = './OutputRes-' + date_written + '/' + str(grid_size) + 'PE/' + str(size[0]) + '-' + str(size[1]) + '/' + toponame + '_' + str(size[0]) + '-' + str(size[1]) + '.txt'
                             try:
                                 with open(output_file_path, 'w') as output_file:
-                                    output_file.write(f'{file_info_list[i][0]}, {size[0]}, {size[1]}, {cycles}, {util}, {ifmap_read}, {filter_reads}, {ofmap_writes}\n')
-                            except Exception as e:
+                                    output_file.write(str(file_info_list[i][0]) + ', ' + str(size[0]) + ', ' + str(size[1]) + ', ' + str(cycles) + ', ' + str(util) + ', ' + str(ifmap_read) + ', ' + str(filter_reads) + ', ' + str(ofmap_writes) + '\n')                            except Exception as e:
                                 print(f"1 Error in processing size - {size}: {e}")
                                 continue
                         except Exception as e:
