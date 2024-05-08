@@ -395,7 +395,7 @@ if __name__ == '__main__':
     file_info_list = read_csv_file_info(file_path)
 
     grid_sizes_list = ['Grids1']
-    #grid_sizes_list = ['Grids1', 'Grids2', 'Grids4', 'Grids8', 'Grids16', 'Grids32', 'Grids64', 'Grids128', 'Grids256', 'Grids512', 'Grids1024']
+    #grid_sizes_list = ['Grids1', 'Grids2', 'Grids4', 'Grids8', 'Grids16', 'Grids32', 'Grids64', 'Grids128', 'Grids256', 'Grids512', 'Grids1024', 'Grids2048', 'Grids4096', 'Grids8192', 'Grids16384', 'Grids32768', 'Grids65536']
 
     for grid_size in grid_sizes_list:
         gridsize = read_grid_file_info(f'./Grids/{grid_size}.txt')

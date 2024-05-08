@@ -16,6 +16,10 @@ from scalesim.memory.double_buffered_scratchpad_mem import double_buffered_scrat
 
 class scaled_out_simulator:
     def __init__(self):
+
+        self.topology_filename = None  # Added attribute to store topology filename
+
+
         self.topo_obj = topologies()
         self.single_arr_cfg = scale_config()
 
@@ -60,7 +64,10 @@ class scaled_out_simulator:
                     grid_rows=1, grid_cols=1,
                     dataflow = 'os'
                     ):
-
+        
+        #added by belal
+        self.topology_filename = topology_filename
+        
         # Blank 1. Read the input files 
         # <insert code here>
         self.topo_obj = topologies()
@@ -326,11 +333,18 @@ class scaled_out_simulator:
 
             print('Saving stats for layer ' + str(layer_id) + ' out of ' + str(num_layers))
             # 4. Store layer information in a text file named after the topology
-            topology_name = "SS"
+            topology_name = self.topology_filename
             gridName1 = self.grid_rows
             gridName2 = self.grid_cols
-            output_file_path_ALL_Layers = f'./LayerInfo/{topology_name}{gridName1}{gridName2}_layer_{layer_id}.txt'
+            output_file_path_ALL_Layers = f'./LayerInfo/{topology_name}/{gridName1}{gridName2}/{layer_id}.txt'
+            output_file_path_ALL_Layers2 = f'./LayerInfo/{topology_name}/{gridName1}{gridName2}'
+            
 
+            #print("testttttttt______________________")
+            #print(self.topology_filename)
+
+            if not os.path.exists(output_file_path_ALL_Layers2):
+                os.makedirs(output_file_path_ALL_Layers2)
             with open(output_file_path_ALL_Layers, 'w') as output_file:
                 output_file.write(f'Layer ID: {layer_id}\n')
                 output_file.write(f'Compute Cycles: {this_layer_compute_cycles}\n')
@@ -339,7 +353,7 @@ class scaled_out_simulator:
                 output_file.write(f'Total Filter DRAM Reads: {sum(self.stats_filter_dram_reads[layer_id])}\n')
                 output_file.write(f'Total Ofmap DRAM Writes: {sum(self.stats_ofmap_dram_writes[layer_id])}\n')
 
-            output_file_path_One = f'./LayerInfo/{topology_name}{gridName1}{gridName2}_All.txt'
+            output_file_path_One = f'./LayerInfo/{topology_name}/{gridName1}{gridName2}/All.txt'
 
             with open(output_file_path_One, 'a') as output_file2:
                 output_file2.write(f'Layer ID: {layer_id}\n')
@@ -389,13 +403,16 @@ def read_grid_file_info(file_path):
 
 if __name__ == '__main__':
     config_file = './configs/PTC.cfg'
-    file_path = 'topologiesV5.txt'  # Update this with the correct file path if needed
-    date_written = '2024-05-01'
+    file_path = 'topologiesV2.txt'  # Update this with the correct file path if needed
+    date_written = '2024-05-08'
     file_info_list = read_csv_file_info(file_path)
 
-    grid_sizes_list = ['Grids128']
+    #grid_sizes_list = ['Grids4']
+    #grid_sizes_list = ['Grids128']
     #grid_sizes_list = ['Grids1', 'Grids4square', 'Grids16square', 'Grids64square', 'Grids256square']
     #grid_sizes_list = ['Grids256mod']
+    grid_sizes_list = ['Grids1', 'Grids2', 'Grids4', 'Grids8', 'Grids16', 'Grids32', 'Grids64', 'Grids128', 'Grids256', 'Grids512', 'Grids1024', 'Grids2048', 'Grids4096', 'Grids8192', 'Grids16384', 'Grids32768', 'Grids65536']
+
 
     for grid_size in grid_sizes_list:
         gridsize = read_grid_file_info(f'./Grids/{grid_size}.txt')
