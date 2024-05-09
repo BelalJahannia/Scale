@@ -1,6 +1,4 @@
 Layer name, IFMAP Height, IFMAP Width, Filter Height, Filter Width, Channels, Num Filter, Strides,
-
-Sentimental_seqLSTM,
 Embedding_layer, 1, 256, 1, 1, 30000, 1, 1, 
 FC, 1, 1, 1, 1, 256, 1024, 1, 
 LSTM1_igate_h, 1, 1, 1, 1, 1024, 1024, 1,

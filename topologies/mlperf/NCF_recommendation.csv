@@ -1,5 +1,4 @@
 Layer name, IFMAP Height, IFMAP Width, Filter Height, Filter Width, Channels, Num Filter, Strides,
-
 Neural Collaborative Filtering(Recommendation),
 MF_Embedding_user, 1, 1, 1, 1, 138000, 8, 1,
 MF_Embedding_item, 1, 1, 1, 1, 138000, 8, 1,

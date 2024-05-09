@@ -1,6 +1,4 @@
 Layer name, IFMAP Height, IFMAP Width, Filter Height, Filter Width, Channels, Num Filter, Strides,
-
-AlphaGoZero,
 Conv, 19, 19, 3, 3, 17, 256, 1,
 Res_conv1, 19, 19, 3, 3, 256, 256, 1,
 Res_conv2, 19, 19, 3, 3, 256, 256, 1,
