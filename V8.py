@@ -1,6 +1,8 @@
 import math
 import numpy as np
 
+import traceback
+
 # import os
 import os
 
@@ -336,8 +338,8 @@ class scaled_out_simulator:
             topology_name = self.topology_filename
             gridName1 = self.grid_rows
             gridName2 = self.grid_cols
-            output_file_path_ALL_Layers = './LayerInfo/' + topology_name + '/' + gridName1 + gridName2 + '/' + str(layer_id) + '.txt'
-            output_file_path_ALL_Layers2 = './LayerInfo/' + topology_name + '/' + gridName1 + gridName2
+            output_file_path_ALL_Layers = './LayerInfo/' + topology_name + '/' + str(gridName1) + str(gridName2) + '/' + str(layer_id) + '.txt'
+            output_file_path_ALL_Layers2 = './LayerInfo/' + topology_name + '/' + str(gridName1) + str(gridName2)
             #print("testttttttt\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_")
             #print(self.topology\_filename)
             if not os.path.exists(output_file_path_ALL_Layers2):
@@ -441,16 +443,20 @@ if __name__ == '__main__':
                                     output_file.write(str(file_info_list[i][0]) + ', ' + str(size[0]) + ', ' + str(size[1]) + ', ' + str(cycles) + ', ' + str(util) + ', ' + str(ifmap_read) + ', ' + str(filter_reads) + ', ' + str(ofmap_writes) + '\n')
                             except Exception as e:
                                 print("1 Error in processing size - " + str(size) + ": " + str(e))
+                                traceback.print_exc()
                                 continue
                         except Exception as e:
-                            print("2 Error in completing size - " + str(size) + ": " + str(e))
+                            print("2 Error in completing size - [" + str(size[0]) + ", " + str(size[1]) + "]: " + str(e))
                             #output_file.write(f"Error in processing size -Size{size} - Grid{grid_size}: {e}\n")
+                            traceback.print_exc()
                             continue
 
                 except Exception as e:
                     print(" 3 ---- Error in processing grid file " + file_info_list[i][1] + ": " + str(e))
+                    traceback.print_exc()
                     continue
         
         except Exception as e:
             print("4 ---- Error in processing grid list " + str(grid_size) + ": " + str(e))
+            traceback.print_exc()
             continue
