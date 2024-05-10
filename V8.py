@@ -338,8 +338,8 @@ class scaled_out_simulator:
             topology_name = self.topology_filename
             gridName1 = self.grid_rows
             gridName2 = self.grid_cols
-            output_file_path_ALL_Layers = './LayerInfo/' + topology_name + '/' + str(gridName1) + str(gridName2) + '/' + str(layer_id) + '.txt'
-            output_file_path_ALL_Layers2 = './LayerInfo/' + topology_name + '/' + str(gridName1) + str(gridName2)
+            output_file_path_ALL_Layers = './LayerInfo/' + topology_name + '/' + str(gridName1*gridName2) + '/' + str(gridName1) + str(gridName2) + '/' + str(layer_id) + '.txt'
+            output_file_path_ALL_Layers2 = './LayerInfo/' + topology_name + '/' + str(gridName1*gridName2) + '/' + str(gridName1) + str(gridName2)
             #print("testttttttt\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_")
             #print(self.topology\_filename)
             if not os.path.exists(output_file_path_ALL_Layers2):
@@ -351,7 +351,7 @@ class scaled_out_simulator:
                 output_file.write('Total Ifmap DRAM Reads: ' + str(sum(self.stats_ifmap_dram_reads[layer_id])) + '\n')
                 output_file.write('Total Filter DRAM Reads: ' + str(sum(self.stats_filter_dram_reads[layer_id])) + '\n')
                 output_file.write('Total Ofmap DRAM Writes: ' + str(sum(self.stats_ofmap_dram_writes[layer_id])) + '\n')
-            output_file_path_One = './LayerInfo/' + topology_name + '/' + str(gridName1) + str(gridName2) + '/All.txt'
+            output_file_path_One = './LayerInfo/' + topology_name + '/' + str(gridName1*gridName2)+ '/' + str(gridName1) + str(gridName2) + '/All.txt'
             with open(output_file_path_One, 'a') as output_file2:
                 output_file2.write('Layer ID: ' + str(layer_id) + '\n')
                 output_file2.write('Compute Cycles: ' + str(this_layer_compute_cycles) + '\n')
@@ -408,7 +408,8 @@ if __name__ == '__main__':
     #grid_sizes_list = ['Grids128']
     #grid_sizes_list = ['Grids1', 'Grids4square', 'Grids16square', 'Grids64square', 'Grids256square']
     #grid_sizes_list = ['Grids256mod']
-    grid_sizes_list = ['Grids1', 'Grids2', 'Grids4', 'Grids8', 'Grids16', 'Grids32', 'Grids64', 'Grids128', 'Grids256', 'Grids512', 'Grids1024', 'Grids2048', 'Grids4096', 'Grids8192', 'Grids16384', 'Grids32768', 'Grids65536']
+    #grid_sizes_list = ['Grids1', 'Grids2', 'Grids4', 'Grids8', 'Grids16', 'Grids32', 'Grids64', 'Grids128', 'Grids256', 'Grids512', 'Grids1024', 'Grids2048', 'Grids4096', 'Grids8192', 'Grids16384', 'Grids32768', 'Grids65536']
+    grid_sizes_list = ['Grids64', 'Grids128', 'Grids256', 'Grids512', 'Grids1024']
 
 
     for grid_size in grid_sizes_list:
