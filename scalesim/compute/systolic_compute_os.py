@@ -209,6 +209,8 @@ class systolic_compute_os:
         self.create_filter_demand_mat()
         self.create_ofmap_demand_mat()
 
+        print("_+_+ From OS compute 2 ", self.ifmap_demand_matrix.shape[1], self.arr_row)
+
         assert self.ifmap_demand_matrix.shape[0] == self.filter_demand_matrix.shape[0], 'IFMAP and Filter demands out of sync'
         assert self.ofmap_demand_matrix.shape[0] == self.filter_demand_matrix.shape[0], 'OFMAP and Filter demands out of sync'
         assert self.ifmap_demand_matrix.shape[1] == self.arr_row, 'IFMAP demands exceed the rows'
