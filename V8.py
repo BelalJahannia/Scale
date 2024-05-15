@@ -430,7 +430,7 @@ if __name__ == '__main__':
                             #print("After Set Params")
                             grid.run_simulations_all_layers()
                             #print("After run_simulations_all_layers")
-                            grid.calc_overall_stats_all_layer()
+                            #grid.calc_overall_stats_all_layer()
 
                             cycles, util, ifmap_read, filter_reads, ofmap_writes = grid.get_report_items()
 
@@ -449,6 +449,8 @@ if __name__ == '__main__':
                         except Exception as e:
                             print("2 Error in completing size - [" + str(size[0]) + ", " + str(size[1]) + "]: " + str(e))
                             #output_file.write(f"Error in processing size -Size{size} - Grid{grid_size}: {e}\n")
+                            print("===========Saving stats!===========")
+                            grid.calc_overall_stats_all_layer()
                             traceback.print_exc()
                             continue
 
