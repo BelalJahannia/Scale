@@ -430,7 +430,7 @@ if __name__ == '__main__':
                             #print("After Set Params")
                             grid.run_simulations_all_layers()
                             #print("After run_simulations_all_layers")
-                            #grid.calc_overall_stats_all_layer()
+                            grid.calc_overall_stats_all_layer()
 
                             
                         except Exception as e:
