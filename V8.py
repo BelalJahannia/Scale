@@ -338,8 +338,8 @@ class scaled_out_simulator:
             topology_name = self.topology_filename
             gridName1 = self.grid_rows
             gridName2 = self.grid_cols
-            output_file_path_ALL_Layers = './LayerInfo/' + topology_name + '/' + str(gridName1*gridName2) + '/' + str(gridName1) + str(gridName2) + '/' + str(layer_id) + '.txt'
-            output_file_path_ALL_Layers2 = './LayerInfo/' + topology_name + '/' + str(gridName1*gridName2) + '/' + str(gridName1) + str(gridName2)
+            output_file_path_ALL_Layers = './LayerInfo/' + topology_name + '/' + str(gridName1*gridName2) + '/' + str(gridName1) + "&" + str(gridName2) + '/' + str(layer_id) + '.txt'
+            output_file_path_ALL_Layers2 = './LayerInfo/' + topology_name + '/' + str(gridName1*gridName2) + '/' + str(gridName1) + "&" + str(gridName2)
             #print("testttttttt\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_")
             #print(self.topology\_filename)
             if not os.path.exists(output_file_path_ALL_Layers2):
@@ -351,7 +351,7 @@ class scaled_out_simulator:
                 output_file.write('Total Ifmap DRAM Reads: ' + str(sum(self.stats_ifmap_dram_reads[layer_id])) + '\n')
                 output_file.write('Total Filter DRAM Reads: ' + str(sum(self.stats_filter_dram_reads[layer_id])) + '\n')
                 output_file.write('Total Ofmap DRAM Writes: ' + str(sum(self.stats_ofmap_dram_writes[layer_id])) + '\n')
-            output_file_path_One = './LayerInfo/' + topology_name + '/' + str(gridName1*gridName2)+ '/' + str(gridName1) + str(gridName2) + '/All.txt'
+            output_file_path_One = './LayerInfo/' + topology_name + '/' + str(gridName1*gridName2)+ '/' + str(gridName1) + "&" + str(gridName2) + '/All.txt'
             with open(output_file_path_One, 'a') as output_file2:
                 output_file2.write('Layer ID: ' + str(layer_id) + '\n')
                 output_file2.write('Compute Cycles: ' + str(this_layer_compute_cycles) + '\n')
