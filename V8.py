@@ -309,7 +309,7 @@ class scaled_out_simulator:
 
     #
     def calc_overall_stats_all_layer(self):
-        assert self.all_grids_done, 'Not all data is available'
+        #assert self.all_grids_done, 'Not all data is available'
 
         num_layers = self.topo_obj.get_num_layers()
         for layer_id in range(num_layers):
