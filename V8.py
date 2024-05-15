@@ -401,7 +401,7 @@ def read_grid_file_info(file_path):
 if __name__ == '__main__':
     config_file = './configs/PTC.cfg'
     file_path = 'topologiesV2.txt'  # Update this with the correct file path if needed
-    date_written = '2024-05-08'
+    date_written = '2024-05-15'
     file_info_list = read_csv_file_info(file_path)
 
     #grid_sizes_list = ['Grids4']
@@ -432,6 +432,13 @@ if __name__ == '__main__':
                             #print("After run_simulations_all_layers")
                             #grid.calc_overall_stats_all_layer()
 
+                            
+                        except Exception as e:
+                            print("2 Error in completing size - [" + str(size[0]) + ", " + str(size[1]) + "]: " + str(e))
+                            #output_file.write(f"Error in processing size -Size{size} - Grid{grid_size}: {e}\n")
+                            print("===========Saving stats!===========")
+                            grid.calc_overall_stats_all_layer()
+                            """
                             cycles, util, ifmap_read, filter_reads, ofmap_writes = grid.get_report_items()
 
                             toponame = str(file_info_list[i][0])
@@ -446,11 +453,7 @@ if __name__ == '__main__':
                                 print("1 Error in processing size - " + str(size) + ": " + str(e))
                                 traceback.print_exc()
                                 continue
-                        except Exception as e:
-                            print("2 Error in completing size - [" + str(size[0]) + ", " + str(size[1]) + "]: " + str(e))
-                            #output_file.write(f"Error in processing size -Size{size} - Grid{grid_size}: {e}\n")
-                            print("===========Saving stats!===========")
-                            grid.calc_overall_stats_all_layer()
+                            """
                             traceback.print_exc()
                             continue
 
