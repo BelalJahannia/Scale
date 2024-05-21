@@ -291,10 +291,16 @@ class scaled_out_simulator:
     #
     def run_simulations_all_layers(self):
         assert self.params_valid, 'Params are not valid'
-
-        for lid in range(self.topo_obj.get_num_layers()):
-            print('Running layer=' + str(lid+1) + ' out of ' + str(self.topo_obj.get_num_layers()))
-            self.run_simulation_single_layer(lid)
+        num_layers = self.topo_obj.get_num_layers()
+        
+        for lid in range(num_layers):
+            try:
+                print(f'Running layer={lid+1} out of {num_layers}')
+                self.run_simulation_single_layer(lid)
+            except Exception as e:
+                print(f'Error occurred while running layer {lid+1}: {e}')
+                print('Continuing to the next layer...')
+                continue
 
     #
     def get_opmat_parts(self, ifmap_op_mat, filter_op_mat, ofmap_op_mat,
