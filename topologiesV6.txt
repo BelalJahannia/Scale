@@ -1,4 +1,3 @@
-test.csv, ./topologies/conv_nets/test.csv
 alexnet.csv, ./topologies/conv_nets/alexnet.csv
 Googlenet.csv, ./topologies/conv_nets/Googlenet.csv
 Resnet18.csv, ./topologies/conv_nets/Resnet18.csv

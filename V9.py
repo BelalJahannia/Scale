@@ -123,12 +123,12 @@ class scaled_out_simulator:
         _, ofmap_op_mat = opmat_obj.get_ofmap_matrix()
 
         for grid_row_id in range(self.grid_rows):
-            print('Running row ' + str(grid_row_id) + ' out of ' + str(self.grid_rows))
+            print('Running row ' + str(grid_row_id+1) + ' out of ' + str(self.grid_rows))
             for grid_col_id in range(self.grid_cols):
 
                 arr_id = grid_row_id * self.grid_cols + grid_col_id
-                print('     Running col ' + str(grid_col_id)+' out of ' + str(self.grid_cols))
-                print('     Running ID ' + str(arr_id) + ' out of ' + str(self.grid_rows * self.grid_cols))
+                print('     Running col ' + str(grid_col_id+1)+' out of ' + str(self.grid_cols))
+                print('     Running ID ' + str(arr_id+1) + ' out of ' + str(self.grid_rows * self.grid_cols))
 
                 ifmap_op_mat_part, filter_op_mat_part, ofmap_op_mat_part =\
                     self.get_opmat_parts(ifmap_op_mat, filter_op_mat, ofmap_op_mat,
@@ -247,7 +247,7 @@ class scaled_out_simulator:
                     output_file.write(f"Layer ID: {layer_id}\n")
                     output_file.write(f"Grid Row ID: {grid_row_id}\n")
                     output_file.write(f"Grid Col ID: {grid_col_id}\n")
-                    
+
                     # Write the additional results
                     indx = grid_row_id * self.grid_cols + grid_col_id
                     output_file.write(f"Compute Cycles: {self.stats_compute_cycles[layer_id, indx]}\n")
@@ -260,6 +260,30 @@ class scaled_out_simulator:
                     output_file.write(f"IFMAP DRAM End Cycle: {self.stats_ifmap_dram_end_cycl[layer_id, indx]}\n")
                     output_file.write(f"Filter DRAM End Cycle: {self.stats_filter_dram_end_cycl[layer_id, indx]}\n")
                     output_file.write(f"OFMAP DRAM End Cycle: {self.stats_ofmap_dram_end_cycl[layer_id, indx]}\n")
+
+                    output_file.write(f"Total Compute Cycles: {memory_system.get_total_compute_cycles()}\n")
+                    output_file.write(f"Total Stall Cycles: {memory_system.get_stall_cycles()}\n")
+                    output_file.write(f"IFMAP SRAM Access Range: {memory_system.get_ifmap_sram_start_stop_cycles()}\n")
+                    output_file.write(f"Filter SRAM Access Range: {memory_system.get_filter_sram_start_stop_cycles()}\n")
+                    output_file.write(f"OFMAP SRAM Access Range: {memory_system.get_ofmap_sram_start_stop_cycles()}\n")
+                    output_file.write(f"IFMAP DRAM Access Range: {memory_system.get_ifmap_dram_details()[0:2]}\n")
+                    output_file.write(f"Filter DRAM Access Range: {memory_system.get_filter_dram_details()[0:2]}\n")
+                    output_file.write(f"OFMAP DRAM Access Range: {memory_system.get_ofmap_dram_details()[0:2]}\n")
+                    output_file.write(f"IFMAP SRAM Access Count: {memory_system.ifmap_buf.get_num_accesses()}\n")
+                    output_file.write(f"Filter SRAM Access Count: {memory_system.filter_buf.get_num_accesses()}\n")
+                    output_file.write(f"OFMAP SRAM Access Count: {memory_system.ofmap_buf.get_num_accesses()}\n")
+                    output_file.write(f"IFMAP DRAM Access Count: {memory_system.get_ifmap_dram_details()[2]}\n")
+                    output_file.write(f"Filter DRAM Access Count: {memory_system.get_filter_dram_details()[2]}\n")
+                    output_file.write(f"OFMAP DRAM Access Count: {memory_system.get_ofmap_dram_details()[2]}\n")
+                    output_file.write(f"IFMAP Buffer Size (bytes): {memory_system.ifmap_buf.total_size_bytes}\n")
+                    output_file.write(f"Filter Buffer Size (bytes): {memory_system.filter_buf.total_size_bytes}\n")
+                    output_file.write(f"OFMAP Buffer Size (bytes): {memory_system.ofmap_buf.total_size_bytes}\n")
+                    output_file.write(f"IFMAP Buffer Utilization (%): {memory_system.ifmap_buf.get_num_accesses() / memory_system.ifmap_buf.total_size_elems * 100}\n")
+                    output_file.write(f"Filter Buffer Utilization (%): {memory_system.filter_buf.get_num_accesses() / memory_system.filter_buf.total_size_elems * 100}\n")
+                    output_file.write(f"OFMAP Buffer Utilization (%): {memory_system.ofmap_buf.get_num_accesses() / memory_system.ofmap_buf.total_size_elems * 100}\n")
+                    #output_file.write(f"IFMAP Buffer Read Bandwidth (bytes/cycle): {memory_system.ifmap_buf.req_gen_bandwidth * memory_system.ifmap_buf.word_size}\n")
+                    #output_file.write(f"Filter Buffer Read Bandwidth (bytes/cycle): {memory_system.filter_buf.req_gen_bandwidth * memory_system.filter_buf.word_size}\n")
+                    #output_file.write(f"OFMAP Buffer Write Bandwidth (bytes/cycle): {memory_system.ofmap_buf.req_gen_bandwidth * memory_system.ofmap_buf.word_size}\n")
                 #Belal: End of saving stats for each layer
 
         self.all_grids_done = True
@@ -269,7 +293,7 @@ class scaled_out_simulator:
         assert self.params_valid, 'Params are not valid'
 
         for lid in range(self.topo_obj.get_num_layers()):
-            print('Running layer=' + str(lid) + ' out of ' + str(self.topo_obj.get_num_layers()))
+            print('Running layer=' + str(lid+1) + ' out of ' + str(self.topo_obj.get_num_layers()))
             self.run_simulation_single_layer(lid)
 
     #
@@ -474,7 +498,7 @@ def read_grid_file_info(file_path):
 
 if __name__ == '__main__':
     config_file = './configs/PTC.cfg'
-    file_path = 'topologiesV2.txt'  # Update this with the correct file path if needed
+    file_path = 'topologiesV6.txt'  # Update this with the correct file path if needed
     date_written = '2024-05-15'
     file_info_list = read_csv_file_info(file_path)
 
